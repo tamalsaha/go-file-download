@@ -1,10 +1,12 @@
 package main
 
 import (
-	"io"
+	// "io"
 	"log"
 	"net/http"
-	"os"
+	// "os"
+
+	"fmt"
 
 	"github.com/moul/http2curl"
 	"github.com/tamalsaha/go-oneliners"
@@ -27,9 +29,8 @@ func main() {
 	*reqCopy = *req
 	reqCopy.Body = nil
 	cmd, _ := http2curl.GetCurlCommand(reqCopy)
-	log.Println("curl:", cmd)
+	fmt.Println(cmd)
 
-	oneliners.DumpHttpRequest(req)
 	oneliners.DumpHttpRequestOut(req)
 
 	resp, err := http.DefaultClient.Do(req)
@@ -38,11 +39,10 @@ func main() {
 	}
 	defer resp.Body.Close()
 
-	oneliners.FILE("chart downloaded")
-	oneliners.DumpHttpResponse(resp)
+	oneliners.FILE("file downloaded")
 
-	_, err = io.Copy(os.Stdout, resp.Body)
-	if err != nil {
-		log.Fatalln(err)
-	}
+	//_, err = io.Copy(os.Stdout, resp.Body)
+	//if err != nil {
+	//	log.Fatalln(err)
+	//}
 }
